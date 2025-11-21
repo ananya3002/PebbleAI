@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PebbleAI — Test</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="card">
+    <h1>PebbleAI</h1>
+    <textarea id="userText" placeholder="Type how you feel..."></textarea>
+    <button id="send">Send</button>
+    <div id="out"></div>
+  </div>
+
+<script>
+document.getElementById("send").onclick = async () => {
+  const text = document.getElementById("userText").value;
+  if (!text.trim()) return;
+  const res = await fetch("/message", {
+    method: "POST",
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({text})
+  });
+  const j = await res.json();
+  document.getElementById("out").innerText = j.reply || JSON.stringify(j);
+}
+</script>
+</body>
+</html>
